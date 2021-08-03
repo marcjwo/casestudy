@@ -51,6 +51,23 @@ view: customer_behavior {
     sql: ${TABLE}.signup_date ;;
   }
 
+  dimension_group: drillfake_signup_at {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.signup_date ;;
+  }
+
+  ### https://profservices.dev.looker.com/looks/832
+
   dimension_group: last_order_date {
     type: time
     sql: ${TABLE}.last_order_date ;;
@@ -101,6 +118,13 @@ view: customer_behavior {
     sql_end: current_date ;;
   }
 
+  dimension_group:  lifetime {
+    type: duration
+    intervals: [day,month,year]
+    sql_start: ${first_order_date_raw} ;;
+    sql_end:  ${last_order_date_raw};;
+  }
+
 
   dimension: days_since_signup {
     type: duration_day
@@ -117,16 +141,6 @@ view: customer_behavior {
   dimension: active_user {
     type: yesno
     sql: ${days_since_last_order} < 90  ;;
-  }
-
-  measure: average_days_since_signup {
-    type: average
-    sql: ${days_since_signup} ;;
-  }
-
-  measure: average_months_since_signup {
-    type: average
-    sql: ${months_since_signup}_since_signup} ;;
   }
 
   measure: average_lifetime_revenue {

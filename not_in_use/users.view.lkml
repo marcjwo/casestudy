@@ -79,6 +79,10 @@ view: users {
   dimension: traffic_source {
     type: string
     sql: ${TABLE}.traffic_source ;;
+    link: {
+      label: "Drill into percentage contribution into channel"
+      url:"/looks/832"
+    }
   }
 
   dimension: zip {

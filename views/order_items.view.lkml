@@ -103,6 +103,20 @@ view: order_items {
 
 ### ADDITIONS TO VIEW  --------------------------------------------------------------------------------------------
 
+  dimension: user_age  {
+    type: number
+    sql: ${users.age} ;;
+  }
+
+### instead of duration month, create a dimension_group with type: duration
+
+  dimension_group: since_signup {
+    type: duration
+    intervals: [day,month,year]
+    sql_start: ${users.created_raw}  ;;
+    sql_end: ${created_raw} ;;
+  }
+
   measure: count_distinct_orders {
     type: count_distinct
     sql: ${order_id} ;;
